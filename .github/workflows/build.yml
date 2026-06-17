@@ -13,7 +13,7 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: "3.10"
-        cache: 'pip'  # 启用pip缓存，重复打包速度提升50%以上
+        cache: 'pip'
 
     - name: 安装项目依赖和打包工具
       run: |
@@ -22,17 +22,7 @@ jobs:
         pip install pyinstaller
 
     - name: 执行打包生成EXE
-      run: |
-        pyinstaller -F -w -n 机械图纸PDF编辑器 `
-        --hidden-import fitz `
-        --hidden-import PyQt6.QtGui `
-        --hidden-import PyQt6.QtCore `
-        --hidden-import PyQt6.QtWidgets `
-        --hidden-import openpyxl `
-        --hidden-import PIL.Image `
-        --hidden-import paddleocr `
-        --hidden-import paddlepaddle `
-        main.py
+      run: pyinstaller -F -w -n 机械图纸PDF编辑器 --hidden-import fitz --hidden-import PyQt6.QtGui --hidden-import PyQt6.QtCore --hidden-import PyQt6.QtWidgets --hidden-import openpyxl --collect-all PyQt6 main.py
 
     - name: 上传打包成品
       uses: actions/upload-artifact@v4
